@@ -41,3 +41,7 @@ microservice, here.
 | POST        | /api/employees      | Add a new employee to database         |
 | PUT         | /api/employees/{id} | Update an employee                     |
 | DELETE      | /api/employees/{id} | Delete an employee by it's ID          |
+
+| HTTP Method | Path             | Description                              |
+| ----------- | ---------------- | ---------------------------------------- |
+| GET         | /api/automobiles | Get a list of all cached automobile VINs |
