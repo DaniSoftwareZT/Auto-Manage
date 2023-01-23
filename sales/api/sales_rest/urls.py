@@ -1,13 +1,17 @@
 from django.urls import path
-from .views import (
-    api_sales_person,
-    api_sales_persons,
-    api_sales_record,
-    api_sales_records,
+from .rest_controller.customer_rest import (
     api_potential_customer,
     api_potential_customers,
-    api_automobileVOs,
 )
+from .rest_controller.employee_rest import (
+    api_sales_person,
+    api_sales_persons,
+)
+from .rest_controller.sales_rest import (
+    api_sales_record,
+    api_sales_records,
+)
+from .rest_controller.vo import api_automobileVOs
 
 urlpatterns = [
     path("sales/", api_sales_records, name="api_sales_records"),
