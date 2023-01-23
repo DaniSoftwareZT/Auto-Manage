@@ -225,7 +225,7 @@ def api_sales_record(request, pk):
 
 
 @require_http_methods(["GET"])
-def api_automobileVO(request):
+def api_automobileVOs(request):
     if request.method == "GET":
         automobileVO = AutomobileVO.objects.all()
         return JsonResponse(
