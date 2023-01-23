@@ -14,8 +14,9 @@ microservice, here.
 
 ## Sales microservice
 
-Created multiple models to hold information for **Sales Person**, **Potential Customer** and **Sales Record** entities.
-Also created a model to cache automobile VIN information (_data collected from **inventory** microservice_)
+- Created multiple models to hold information for **Sales Person**, **Potential Customer** and **Sales Record** entities.
+
+- Also created a model to cache automobile VIN information (_data collected from **inventory** microservice_)
 
 | HTTP Method | Path            | Description                        |
 | ----------- | --------------- | ---------------------------------- |
