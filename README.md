@@ -92,3 +92,13 @@ microservice, here.
         }
     ]
 ```
+
+**GET** `/api/automobiles`
+
+```json
+    "automobileVO": [
+        {
+            "vin": "1C3CC5FB2AN120174"
+        }
+    ]
+```
