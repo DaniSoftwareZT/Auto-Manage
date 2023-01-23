@@ -22,7 +22,7 @@ class SalesRecordEncoder(ModelEncoder):
     properties = ["automobile", "sales_person", "customer", "price"]
 
     encoders = {
-        "automobile": AutomobileVOEncoder,
-        "sales_person": SalesPersonEncoder,
-        "customer": PotentialCustomerEncoder,
+        "automobile": AutomobileVOEncoder(),
+        "sales_person": SalesPersonEncoder(),
+        "customer": PotentialCustomerEncoder(),
     }

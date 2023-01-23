@@ -45,3 +45,50 @@ microservice, here.
 | HTTP Method | Path             | Description                              |
 | ----------- | ---------------- | ---------------------------------------- |
 | GET         | /api/automobiles | Get a list of all cached automobile VINs |
+
+## Sales API Examples
+
+**GET** `/api/employees`
+
+```json
+    "sales_persons": [
+        {
+            "name": "Ryan Paschen",
+            "employee_id": 7777
+        }
+    ]
+```
+
+**GET** `/api/customers/`
+
+```json
+    "potential_customers": [
+        {
+            "name": "Elon Musk",
+            "address": "1923 Grant Dr",
+            "phone_number": "2094854600"
+        }
+    ]
+```
+
+**GET** `/api/sales`
+
+```json
+    "sales_records": [
+        {
+            "automobile": {
+                "vin": "1C3CC5FB2AN120174"
+            },
+            "sales_person": {
+                "name": "Ryan Paschen",
+                "employee_id": 7777
+            },
+            "customer": {
+                "name": "Elon Musk",
+                "address": "1923 Grant Dr",
+                "phone_number": "2094854600"
+            },
+            "price": 12500
+        }
+    ]
+```
