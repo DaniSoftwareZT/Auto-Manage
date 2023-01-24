@@ -1,5 +1,5 @@
 from django.views.decorators.http import require_http_methods
-from .models import Technician, Service_Appointment
+from .models import Technician, Service_Appointment, AutomobileVO
 from django.http import JsonResponse
 from .encoders import ServiceHistoryEncoder, ServiceAppointmentEncoder
 import json
@@ -13,6 +13,7 @@ def service_list(request, id):
             encoder = ServiceAppointmentEncoder,
 
         )
+
     elif request.method == "DELETE":
         count, _ = service_appointment.objects.filter(id=id).delete()
         return JsonResponse(
@@ -35,6 +36,17 @@ def service_list(request, id):
             encoder=ServiceAppointmentEncoder,
             safe=False,
         )
+
+    else:
+        content = json.loads(request.body)
+        try:
+            vin = AutomobileVO.objects.get(import_href=content["vin"])
+            content["vin"] = vin
+        except AutomobileVO.DoesNotExist:
+            return JsonResponse(
+                {"error": "VIN does not exist"},
+                status=400
+            )
 
 
 @require_http_methods(["GET"])
