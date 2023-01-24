@@ -5,8 +5,6 @@ class Technician(models.Model):
     name = models.CharField(max_length=150)
     employee_id = models.PositiveSmallIntegerField(unique=True)
 
-    def get_api_url(self):
-        return reverse("api_list_technician", kwargs={"pk": self.pk})
 
 class Service_Appointment(models.Model):
     vin_vehicle = models.PositiveSmallIntegerField()
@@ -15,8 +13,6 @@ class Service_Appointment(models.Model):
     employee_id = models.ForeignKey(Technician, related_name = "employee_id", on_delete=models.PROTECT)
     reason = models.CharField(max_length=150)
 
-    def get_api_url(self):
-        return reverse("api_show_appointment", kwargs={"pk": self.pk})
 
 class AutomobileVO(models.Model):
     import_href = models.CharField(max_length= 150, unique = True)
