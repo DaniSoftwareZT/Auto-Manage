@@ -1,8 +1,36 @@
 from django.views.decorators.http import require_http_methods
-from .models import Technician, Service_Appointment, AutomobileVO
+from .models import Technician, Service_Appointment
 from django.http import JsonResponse
 from .encoders import ServiceHistoryEncoder, ServiceAppointmentEncoder
 import json
+
+
+@require_http_methods(["GET", "POST"])
+def api_list_appointment(request):
+    if request.method == "GET":
+        appointments = Service_Appointment.objects.all()
+        return JsonResponse(
+            {"appointments": appointments},
+            encoder=ServiceAppointmentEncoder
+        )
+    else:
+        data = json.loads(request.body)
+        appointment = Service_Appointment.objects.create(**data)
+        return JsonResponse(
+            appointment,
+            encoder=ServiceAppointmentEncoder,
+            safe=False,
+        )
+
+@require_http_methods(["GET", "DELETE"])
+def api_show_appointment(request, pk):
+    if request.method == "GET":
+        appointment = Service_Appointment.objects.get(id=pk)
+        return JsonResponse(
+            appointment,
+            encoder=ServiceAppointmentEncoder,
+            safe=False
+        )
 
 @require_http_methods(["GET", "DELETE", "POST"])
 def service_list(request, id):
@@ -36,18 +64,6 @@ def service_list(request, id):
             encoder=ServiceAppointmentEncoder,
             safe=False,
         )
-
-    else:
-        content = json.loads(request.body)
-        try:
-            vin = AutomobileVO.objects.get(import_href=content["vin"])
-            content["vin"] = vin
-        except AutomobileVO.DoesNotExist:
-            return JsonResponse(
-                {"error": "VIN does not exist"},
-                status=400
-            )
-
 
 @require_http_methods(["GET"])
 def service_history(request, id):
