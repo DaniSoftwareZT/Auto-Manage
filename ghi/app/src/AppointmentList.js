@@ -4,7 +4,7 @@ function AppointmentList(){
 
     const[appointments, setAppointments] = useState([]);
     const fetchAppointments =async() => {
-        const response = await fetch('http://localhost:8000/api/appointments/');
+        const response = await fetch('http://localhost:8000/api/service/');
         if (response.ok) {
             const allData = await response.json();
             const activeAppointments = allData.appointments.filter(appointment => appointment.status == "INCOMPLETE")
