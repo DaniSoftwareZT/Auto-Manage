@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function CreateManufacturer() {
   const [manufacturerName, setManufacturerName] = useState("");
 
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
-
-  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -83,6 +80,8 @@ function CreateManufacturer() {
           </div>
         </div>
       </div>
+      {errorCheck}
+      {successCheck}
     </div>
   );
 }

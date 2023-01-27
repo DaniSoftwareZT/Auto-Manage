@@ -36,7 +36,6 @@ function CreateModel() {
       picture_url: pictureUrl,
       manufacturer_id: manufacturer,
     };
-    console.log(data);
 
     const modelUrl = "http://localhost:8100/api/models/";
     const fetchConfig = {
@@ -109,7 +108,6 @@ function CreateModel() {
                   value={pictureUrl}
                   onChange={(event) => setPictureUrl(event.target.value)}
                   placeholder="URL"
-                  required
                   type="url"
                   className="form-control"
                 />

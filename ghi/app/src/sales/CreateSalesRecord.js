@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +20,8 @@ function CreateSalesRecord() {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setAutomobiles(data.autos);
+        const autos = data.autos;
+        setAutomobiles(autos.filter((auto) => auto.sold !== true));
       } else {
         setError("Could not fetch automobile information");
       }
@@ -72,12 +72,22 @@ function CreateSalesRecord() {
         "Content-Type": "application/json",
       },
     };
-    const response = await fetch(srUrl, fetchConfig);
+    await fetch(srUrl, fetchConfig);
 
-    if (response.ok) {
+    const autoUrl = `http://localhost:8100/api/automobiles/${automobile}/`;
+    const fetchConfig2 = {
+      method: "put",
+      body: JSON.stringify({ sold: true }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response2 = await fetch(autoUrl, fetchConfig2);
+
+    if (response2.ok) {
       navigate("/sales/records/view");
     } else {
-      setError("Failed to create sales record");
+      setError("Failed to update automobile sold status");
     }
   }
 

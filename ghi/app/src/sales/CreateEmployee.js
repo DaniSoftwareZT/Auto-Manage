@@ -50,11 +50,15 @@ function CreateEmployee() {
   ) : null;
 
   const errorCheck = error ? (
-    <div
-      className="col-2 text-center m-5 alert alert-danger alert-animation"
-      role="alert"
-    >
-      {error}
+    <div className="container">
+      <div className="row justify-content-md-center">
+        <div
+          className="col-3 text-center m-5 alert alert-danger alert-animation"
+          role="alert"
+        >
+          {success}
+        </div>
+      </div>
     </div>
   ) : null;
 
@@ -98,6 +102,7 @@ function CreateEmployee() {
           </div>
         </div>
       </div>
+      {errorCheck}
       {successCheck}
     </>
   );
