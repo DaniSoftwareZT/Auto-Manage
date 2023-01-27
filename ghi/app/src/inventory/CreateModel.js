@@ -51,7 +51,7 @@ function CreateModel() {
     if (response.ok) {
       setSuccess("Vehicle model successfully created");
       setModelName("");
-      navigate("/inventory/vehicle_models/view");
+      navigate("/inventory/models/view");
     } else {
       setError("Failed to create model");
     }
