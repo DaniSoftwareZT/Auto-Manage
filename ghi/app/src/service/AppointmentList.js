@@ -19,7 +19,7 @@ export default function AppointmentList() {
 
   const [automobiles, setAutomobiles] = useState([]);
   const fetchAutomobiles = async () => {
-    const response = await fetch("http://localhost:8080/api/automobiles/");
+    const response = await fetch("http://localhost:8080/api/appointments/");
     if (response.ok) {
       const data = await response.json();
       const vinList = [];
@@ -40,21 +40,15 @@ export default function AppointmentList() {
     }
   };
 
-  const cancelAppointment = async (appointment) => {
-    const aptId = String(appointment.id);
-    const cancelUrl =
-      "http://localhost:8080/api/appointments/" + aptId + "/cancel/";
-    const fetchConfig = {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch(cancelUrl, fetchConfig);
-    if (response.ok) {
-      fetchAppointments();
-    }
-  };
+    const handleDelete = async (appointmentId) => {
+        const response = await fetch(`http://localhost:8080/api/appointments/${appointmentId}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          setAppointments(appointments.filter((appointment) => appointment.id !== appointmentId));
+        }
+      };
+
 
   const completeAppointment = async (appointment) => {
     const aptId = String(appointment.id);
@@ -72,62 +66,39 @@ export default function AppointmentList() {
     }
   };
 
-  return (
-    <div ClassName="pt-4">
-      <h1 className="pb-2">Service Appointments</h1>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>VIN</th>
-            <th>Customer Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Technician</th>
-            <th>Reason</th>
-            <th>VIP</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((appointment) => {
-            return (
-              <tr key={appointment.id}>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => cancelAppointment(appointment)}
-                  >
-                    Cancel
-                  </button>
-                </td>
-                <td className="pt-3">{appointment.vin}</td>
-                <td className="pt-3">{appointment.customer_name}</td>
-                <td className="pt-3">
-                  {new Date(appointment.date).toLocaleDateString()}
-                </td>
-                <td className="pt-3">
-                  {new Date(appointment.date).toLocaleTimeString(
-                    navigator.language,
-                    { hour: "2-digit", minute: "2-digit" }
-                  )}
-                </td>
-                <td className="pt-3">{appointment.technician}</td>
-                <td className="pt-3">{appointment.reason}</td>
-                <td className="pt-3">{isVip(appointment.vin)}</td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-sucess"
-                    onClick={() => completeAppointment(appointment)}
-                  >
-                    Finished
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
+    return (
+        <div ClassName="pt-4">
+            <h1 className="pb-2">Service Appointments</h1>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>VIN</th>
+                        <th>Customer Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Technician</th>
+                        <th>Reason</th>
+                        <th>VIP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {appointments.map(appointment => {
+                        return (
+                            <tr key={appointment.id}>
+                                <td><button type="button" className="btn btn-danger" onClick={() => handleDelete(appointment)}>Cancel</button></td>
+                                <td className="pt-3">{appointment.vin}</td>
+                                <td className="pt-3">{appointment.customer_name}</td>
+                                <td className="pt-3">{new Date(appointment.date).toLocaleDateString()}</td>
+                                <td className="pt-3">{new Date(appointment.date).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}</td>
+                                <td className="pt-3">{appointment.technician}</td>
+                                <td className="pt-3">{appointment.reason}</td>
+                                <td className="pt-3">{isVip(appointment.vin)}</td>
+                                <td><button type="button" className="btn btn-sucess" onClick={() => completeAppointment(appointment)}>Finished</button></td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        </div>
+    );
 }
