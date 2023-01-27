@@ -10,7 +10,26 @@ Team:
 ## Service microservice
 
 Explain your models and integration with the inventory
-microservice, here.
+microservice, here ->
+- Created three different models:
+1.Technician-- Holds the technicians name and his ID in case there is a repeated name.
+2.Appointment--Holds every detail of the appointment: VIN, Name, Date, Time, Status and Reason.
+3.AtomobileVO -- VIN
+
+
+| HTTP Method |       Path         Description
+| ----------- | --------------- |--------------| ----------------------------------
+| GET    | /api/appointments     | Get a list of appointments
+| GET    | /api/appointments/{id}| Show a single appointment by ID
+| POST   | /api/appointment      | Create a new appointment
+| PUT    | /api/appointment{id}  | Complete appointment by it's ID
+| PUT    | /api/appointment{id}  | Cancel appointment by it's ID
+
+| HTTP Method    Path                 Description
+| -------| ----------------|-------------------------- |
+| GET    | /api/technician     | Get a list of all technicians |
+| POST   | /api/technician     | Add a new technician to database
+| DELETE | /api/technician/{id}| Delete technician by it's ID
 
 ## Sales microservice
 

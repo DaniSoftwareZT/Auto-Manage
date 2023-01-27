@@ -1,77 +1,85 @@
 from django.views.decorators.http import require_http_methods
-from .models import Technician, Service_Appointment
+from .models import Technician, Appointment
 from django.http import JsonResponse
-from .encoders import ServiceHistoryEncoder, ServiceAppointmentEncoder
+from .encoders import AppointmentDetailEncoder, AppointmentListEncoder, TechnicianEncoder
 import json
-
+from django.db import IntegrityError
 
 @require_http_methods(["GET", "POST"])
-def api_list_appointment(request):
+def api_list_appointments(request):
     if request.method == "GET":
-        appointments = Service_Appointment.objects.all()
+        appointments = Appointment.objects.all()
         return JsonResponse(
             {"appointments": appointments},
-            encoder=ServiceAppointmentEncoder
+            encoder=AppointmentListEncoder
         )
     else:
         data = json.loads(request.body)
-        appointment = Service_Appointment.objects.create(**data)
+        appointment = Appointment.objects.create(**data)
         return JsonResponse(
             appointment,
-            encoder=ServiceAppointmentEncoder,
+            encoder=AppointmentDetailEncoder,
             safe=False,
         )
 
 @require_http_methods(["GET", "DELETE"])
 def api_show_appointment(request, pk):
     if request.method == "GET":
-        appointment = Service_Appointment.objects.get(id=pk)
+        appointment = Appointment.objects.get(id=pk)
         return JsonResponse(
             appointment,
-            encoder=ServiceAppointmentEncoder,
+            encoder=AppointmentDetailEncoder,
             safe=False
         )
+    else:
+        count, _ = Appointment.objects.filter(id=pk).delete()
+        return JsonResponse({"deleted": count >0})
 
-@require_http_methods(["GET", "DELETE", "POST"])
-def service_list(request, id):
+@require_http_methods({"GET", "POST", "DELETE"})
+def api_list_technician(request, pk=None):
     if request.method == "GET":
-        service_appointments = Service_Appointment.objects.all()
+        technicians = Technician.objects.all()
         return JsonResponse(
-            {"service_appointments": service_appointments},
-            encoder = ServiceAppointmentEncoder,
-
+            {"technicians": technicians,},
+            encoder=TechnicianEncoder,
+            safe=False
         )
-
-    elif request.method == "DELETE":
-        count, _ = service_appointment.objects.filter(id=id).delete()
-        return JsonResponse(
-            {"deleted": count > 0},
-            status=200,
-        )
-
     elif request.method == "POST":
-        content = json.loads(request.body)
         try:
-            Technician.objects.get(employee_id=content["employee_id"])
-        except Technician.DoesNotExist:
+            data = json.loads(request.body)
+            technician = Technician.objects.create(**data)
+        except IntegrityError:
             return JsonResponse(
-                {"error": "Technician does not exist"},
-                status=400,
+                {"message": "Employee number taken"},
+                status = 400,
             )
-        service_appointment = Service_Appointment.objects.create(**content)
         return JsonResponse(
-            service_appointment,
-            encoder=ServiceAppointmentEncoder,
-            safe=False,
-        )
-
-@require_http_methods(["GET"])
-def service_history(request, id):
-    if request.method == "GET":
-        service_history = Service_Appointment.objects.get(id=id)
-        print(service_history)
-        return JsonResponse(
-            service_history,
-            encoder = ServiceHistoryEncoder,
+            {"technician": technician},
+            encoder=TechnicianEncoder,
             safe=False
         )
+    else:
+        count, _ = Technician.objects.filter(id=pk).delete()
+        return JsonResponse({"deleted":count >0})
+
+@require_http_methods(["PUT"])
+def api_cancel_appointment(request, pk):
+    appointment = Appointment.objects.get(id=pk)
+    appointment.status = "CANCELLED"
+    appointment.save(update_fields=['status'])
+    return JsonResponse(
+        appointment,
+        encoder = AppointmentDetailEncoder,
+        safe=False
+    )
+
+@require_http_methods(["PUT"])
+def api_complete_appointment(request, pk):
+    appointment = Appointment.objects.get(id=pk)
+    appointment.status = "COMPLETE"
+    appointment.save(update_fields=['status'])
+    return JsonResponse(
+        appointment,
+        encoder = AppointmentDetailEncoder,
+        safe=False
+    )
