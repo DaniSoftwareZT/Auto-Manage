@@ -35,20 +35,15 @@ export default function AppointmentList() {
         }
     }
 
-    const cancelAppointment = async (appointment) => {
-        const aptId = String(appointment.id);
-        const cancelUrl = "http://localhost:8080/api/appointments/" + aptId + "/cancel/"
-        const fetchConfig = {
-            method: "put",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }
-        const response = await fetch(cancelUrl, fetchConfig)
+    const handleDelete = async (appointmentId) => {
+        const response = await fetch(`http://localhost:8080/api/appointments/${appointmentId}`, {
+          method: "DELETE",
+        });
         if (response.ok) {
-            fetchAppointments();
+          setAppointments(appointments.filter((appointment) => appointment.id !== appointmentId));
         }
-    }
+      };
+
 
     const completeAppointment = async (appointment) => {
         const aptId = String(appointment.id);
@@ -84,7 +79,7 @@ export default function AppointmentList() {
                     {appointments.map(appointment => {
                         return (
                             <tr key={appointment.id}>
-                                <td><button type="button" className="btn btn-danger" onClick={() => cancelAppointment(appointment)}>Cancel</button></td>
+                                <td><button type="button" className="btn btn-danger" onClick={() => handleDelete(appointment)}>Cancel</button></td>
                                 <td className="pt-3">{appointment.vin}</td>
                                 <td className="pt-3">{appointment.customer_name}</td>
                                 <td className="pt-3">{new Date(appointment.date).toLocaleDateString()}</td>
