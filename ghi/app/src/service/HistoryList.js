@@ -19,17 +19,17 @@ export default function HistoryList() {
 
     useEffect(() => { fetchAppointments() }, []);
 
-    const fetchAutomobiles = async () => {
-        const response = await fetch('http://localhost:8080/api/automobiles/');
+    const fetchAppointment = async () => {
+        const response = await fetch('http://localhost:8080/api/appointments/');
         if (response.ok) {
             const data = await response.json();
             const vinList = [];
-            data.autos.map(automobile => vinList.push(automobile.vin))
-            setAutomobiles(vinList)
+            data.appointments.map(appointments => vinList.push(appointments.vin))
+            fetchAppointment(vinList)
         }
     }
 
-    useEffect(() => { fetchAutomobiles() });
+    useEffect(() => { fetchAppointment() });
 
     return (
         <>
