@@ -1,14 +1,17 @@
+import "./index.css";
+import Carousel from "./components/Carousel";
+import BulletPoints from "./components/BulletPoints";
+import Features from "./components/Features";
+import Footer from "./components/Footer";
+
 function MainPage() {
   return (
-    <div className="px-4 py-5 my-5 text-center">
-      <h1 className="display-5 fw-bold">CarCar</h1>
-      <div className="col-lg-6 mx-auto">
-        <p className="lead mb-4">
-          The premiere solution for automobile dealership
-          management!
-        </p>
-      </div>
-    </div>
+    <>
+      <Carousel />
+      <BulletPoints />
+      <Features />
+      <Footer />
+    </>
   );
 }
 

@@ -1,0 +1,23 @@
+.overlay {
+  color: #fff;
+  position: absolute;
+  z-index: 12;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+#car-slogan {
+  font-size: 40px;
+  text-shadow: #000 1px 0 2px;
+}
+
+#car-title {
+  font-size: 100px;
+  text-shadow: #000 1px 0 2px;
+}
+
+.carousel-bg {
+  background-color: #f6f7fd;
+}

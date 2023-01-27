@@ -17,7 +17,7 @@ class AutomobileVO(models.Model):
 
 
 class SalesRecord(models.Model):
-    automobile = models.ForeignKey(AutomobileVO, related_name="vehicle", on_delete=models.PROTECT)
     sales_person = models.ForeignKey(SalesPerson, related_name="sales_person", on_delete=models.PROTECT)
     customer = models.ForeignKey(PotentialCustomer, related_name="customer", on_delete=models.PROTECT)
+    automobile = models.ForeignKey(AutomobileVO, related_name="automobile", on_delete=models.PROTECT)
     price = models.PositiveSmallIntegerField()

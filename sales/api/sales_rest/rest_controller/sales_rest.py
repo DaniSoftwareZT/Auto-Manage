@@ -1,34 +1,56 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from sales_rest.models import SalesRecord
+from sales_rest.models import SalesRecord, SalesPerson, PotentialCustomer, AutomobileVO
 from sales_rest.encoders import SalesRecordEncoder
 import json
 
 
 @require_http_methods(["GET", "POST"])
-def api_sales_records(request):
+def api_sales_records(request, employee_id=None):
     if request.method == "GET":
-        sales_records = SalesRecord.objects.all()
+        if employee_id is None:
+            sales_records = SalesRecord.objects.all()
+        else:
+            sales_records = SalesRecord.objects.filter(sales_person=employee_id)
+            if not sales_records:
+                return JsonResponse(
+                    {"message": "This employee has no sales records"},
+                    status=404,
+                )
         return JsonResponse(
             {"sales_records": sales_records},
             encoder=SalesRecordEncoder,
         )
     else:
+        content = json.loads(request.body)
         try:
-            content = json.loads(request.body)
-            sales_record = SalesRecord.objects.create(**content)
+            sales_person = SalesPerson.objects.get(employee_id=content["sales_person"])
+            content["sales_person"] = sales_person
+            customer = PotentialCustomer.objects.get(id=content["customer"])
+            content["customer"] = customer
+            automobile = AutomobileVO.objects.get(vin=content["automobile"])
+            content["automobile"] = automobile
+        except SalesPerson.DoesNotExist:
             return JsonResponse(
-                sales_record,
-                encoder=SalesRecordEncoder,
-                safe=False,
+                {"message": "Employee does not exist"},
+                status=404,
             )
-        except Exception:
-            response = JsonResponse(
-                {"message": "Could not create the sales record"}
+        except PotentialCustomer.DoesNotExist:
+            return JsonResponse(
+                {"message": "Customer does not exist"},
+                status=404,
             )
-            response.status_code = 400
-            return response
-
+        except AutomobileVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Automobile does not exist"},
+                status=404,
+            )
+        sales_record = SalesRecord.objects.create(**content)
+        return JsonResponse(
+            sales_record,
+            encoder=SalesRecordEncoder,
+            safe=False,
+        )
 
 @require_http_methods(["DELETE", "GET", "PUT"])
 def api_sales_record(request, pk):
@@ -73,5 +95,5 @@ def api_sales_record(request, pk):
             response = JsonResponse(
                 {"message": "Could not update the sales record"}
             )
-            response.status_code = 400
+            response.status_code = 404
             return response

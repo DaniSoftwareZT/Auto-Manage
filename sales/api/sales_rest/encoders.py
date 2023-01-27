@@ -9,7 +9,7 @@ class SalesPersonEncoder(ModelEncoder):
 
 class PotentialCustomerEncoder(ModelEncoder):
     model = PotentialCustomer
-    properties = ["name", "address", "phone_number"]
+    properties = ["id", "name", "address", "phone_number"]
 
 
 class AutomobileVOEncoder(ModelEncoder):
@@ -19,10 +19,10 @@ class AutomobileVOEncoder(ModelEncoder):
 
 class SalesRecordEncoder(ModelEncoder):
     model = SalesRecord
-    properties = ["automobile", "sales_person", "customer", "price"]
+    properties = ["id", "sales_person", "customer", "automobile", "price"]
 
     encoders = {
-        "automobile": AutomobileVOEncoder(),
         "sales_person": SalesPersonEncoder(),
         "customer": PotentialCustomerEncoder(),
+        "automobile": AutomobileVOEncoder(),
     }
