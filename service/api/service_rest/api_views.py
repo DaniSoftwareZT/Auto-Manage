@@ -16,6 +16,7 @@ def api_list_appointments(request):
         )
     else:
         data = json.loads(request.body)
+        print("test")
 
         try:
             technician = Technician.objects.get(employee_id=data["technician"])
@@ -42,8 +43,8 @@ def api_list_technician(request):
             encoder=TechnicianEncoder,
         )
     else:
+        data = json.loads(request.body)
         try:
-            data = json.loads(request.body)
             technician = Technician.objects.create(**data)
             return JsonResponse(
                 technician,

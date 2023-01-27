@@ -2,7 +2,7 @@ import "./carousel.css";
 
 export default function Carousel() {
   return (
-    <div className="container-fluid carousel-bg">
+    <div className="container-fluid carousel-bg p-0 m-0">
       <div className="overlay">
         <h1 id="car-title">CARCAR</h1>
         <p id="car-slogan">DEALERSHIP MANAGEMENT DONE RIGHT</p>

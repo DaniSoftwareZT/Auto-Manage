@@ -89,7 +89,7 @@ function Nav() {
                     className="dropdown-item"
                     to="services/appointments/create"
                   >
-                    Add an appointment
+                    Make an appointment
                   </NavLink>
                 </li>
                 <li>
