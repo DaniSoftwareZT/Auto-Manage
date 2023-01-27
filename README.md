@@ -11,10 +11,11 @@ Team:
 
 Explain your models and integration with the inventory
 microservice, here ->
-- Created three different models:
+
+- Created three different models(Technician, Appointment and AutomobileVO):
 1.Technician-- Holds the technicians name and his ID in case there is a repeated name.
-2.Appointment--Holds every detail of the appointment: VIN, Name, Date, Time, Status and Reason.
-3.AtomobileVO --Model to cache automobile VIN information from inventory microservice.
+2.Appointment--Holds every detail of the appointment: VIN, Name, Date, Time, Status and Reason, also calling on the Technician model.
+3.AutomobileVO --Model to cache automobile VIN information from inventory microservice.
 
 
   HTTP Method         Path         Description

@@ -79,7 +79,7 @@ export default function AppointmentList() {
                     {appointments.map(appointment => {
                         return (
                             <tr key={appointment.id}>
-                                <td><button type="button" className="btn btn-danger" onClick={() => (appointment)}>Cancel</button></td>
+                                <td><button type="button" className="btn btn-danger" onClick={() => handleDelete(appointment)}>Cancel</button></td>
                                 <td className="pt-3">{appointment.vin}</td>
                                 <td className="pt-3">{appointment.customer_name}</td>
                                 <td className="pt-3">{new Date(appointment.date).toLocaleDateString()}</td>
