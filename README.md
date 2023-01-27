@@ -2,8 +2,8 @@
 
 Team:
 
-- Daniel Zambrana - Service
-- Ryan Paschen - Sales
+- Daniel Zambrana - [Service](./service/)
+- Ryan Paschen - [Sales](./sales/)
 
 ## Design
 
