@@ -89,7 +89,7 @@ function Nav() {
                     className="dropdown-item"
                     to="services/appointments/create"
                   >
-                    Create an appointment
+                    Add an appointment
                   </NavLink>
                 </li>
                 <li>
@@ -97,7 +97,7 @@ function Nav() {
                     className="dropdown-item"
                     to="services/technicians/create"
                   >
-                    Create a technician
+                    Add a technician
                   </NavLink>
                 </li>
                 <ul className="dropdown-menu"></ul>

@@ -1,20 +1,19 @@
 from django.db import models
-from django.urls import reverse
 
 class Technician(models.Model):
     name = models.CharField(max_length=150)
     employee_id = models.PositiveSmallIntegerField(unique=True)
 
-    def get_api_url(self):
-        return reverse("api_list_technician", kwargs={"pk": self.pk})
 
 class Appointment(models.Model):
     vin = models.CharField(max_length=17)
     customer_name = models.CharField(max_length=150)
     date = models.DateTimeField(max_length=150)
-    time = models.CharField(max_length = 150)
-    status = models.CharField(max_length = 150, default = "INCOMPLETE")
+    time = models.CharField(max_length=150)
     reason = models.CharField(max_length=150)
+
+    vip = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False)
 
     technician = models.ForeignKey(
         Technician,
@@ -22,13 +21,7 @@ class Appointment(models.Model):
         on_delete=models.CASCADE
     )
 
-    def get_api_url(self):
-        return reverse("api_show_appointment", kwargs={"pk": self.pk})
-
 
 class AutomobileVO(models.Model):
-    import_href = models.CharField(max_length= 150, unique = True)
-    vin = models.CharField(max_length = 17)
+    vin = models.CharField(max_length=17)
 
-    def get_api_url(self):
-        return reverse("api_automobile", kwargs={"vin": self.vin})
